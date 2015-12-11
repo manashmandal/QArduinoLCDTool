@@ -2,6 +2,9 @@
 
 LiquidCrystal lcd(7, 8, 9, 10, 11 ,12);
 
+String input = "";
+bool sendDim = false;
+
 void setup()
 {
 	lcd.begin(20, 4);
@@ -18,30 +21,17 @@ void setup()
 
 void loop()
 {
-	
-	int x ;
-	String the_string;
-	
-	if (Serial.available() > 0) {
-		the_string = Serial.readString();
-//		Serial.print("I received: ");
-//		Serial.println(the_string);
-    
-   if (the_string == "gd"){
-      Serial.print("20X4");
-   }
-
-	 else	if (the_string == "#"){
-			lcd.clear();
-		}
-		else {
-			lcd.print(the_string);
-		}
-
+	if (Serial.available() > 0){
+    String input = Serial.readString();
+    if (input == "#") lcd.clear();
+    else if (input == "g") sendDim = true;
+    else lcd.print(input);
 	}
 
- delay(10);
-
-  /* add main program code here */
+ else if (sendDim){
+  Serial.print("20X4");
+  Serial.println();
+  sendDim = false;
+ }
 	
 }

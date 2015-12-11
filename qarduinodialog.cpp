@@ -27,6 +27,8 @@ QArduinoDialog::QArduinoDialog(QWidget *parent) :
 
     connect(arduino, SIGNAL(readyRead()), this, SLOT(readArduino()));
 
+    ui->disconnectButton->setEnabled(false);
+
 }
 
 QArduinoDialog::~QArduinoDialog()
@@ -70,6 +72,9 @@ void QArduinoDialog::on_connectButton_clicked()
         QMessageBox::warning(this, "Connection Failed", "Retry");
     }
 
+    ui->connectButton->setEnabled(false);
+    ui->disconnectButton->setEnabled(true);
+
 }
 
 void QArduinoDialog::on_disconnectButton_clicked()
@@ -77,6 +82,8 @@ void QArduinoDialog::on_disconnectButton_clicked()
     arduino->clear();
     arduino->close();
     if (!arduino->isOpen()) QMessageBox::information(this, "Port is closed", "Connected device is closed successfully");
+    ui->connectButton->setEnabled(true);
+    ui->disconnectButton->setEnabled(false);
 }
 
 void QArduinoDialog::on_sendTextButton_clicked()
@@ -90,14 +97,19 @@ void QArduinoDialog::on_sendTextButton_clicked()
     }
 }
 
-QString QArduinoDialog::readArduino(){
-    qDebug() << arduino->readAll();
+void QArduinoDialog::readArduino(){
+    if (arduino->canReadLine()) data = arduino->readLine();
+    data = data.remove(QRegExp("[\\n\\t\\r]"));
+    if (data.contains("X")){
+        qDebug() << data << "\n";
+        ui->dimensionLabel->setText(data);
+    }
 }
 
 void QArduinoDialog::on_getLCDDimensionButton_clicked()
 {
     if (arduino->isOpen()){
-
+        arduino->write("g");
     }
     else
         QMessageBox::information(this, "No Arduino Detected", "Connect an Arduino and Click connect button on Connection Manager");

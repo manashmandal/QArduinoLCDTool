@@ -13,6 +13,7 @@
 #include <QDebug>
 #include <QListIterator>
 #include <QMessageBox>
+#include <QRegExp>
 
 namespace Ui {
 class QArduinoDialog;
@@ -46,7 +47,7 @@ private slots:
     void on_pushButton_clicked();
 
 public slots:
-    QString readArduino(void);
+    void readArduino(void);
 
 private:
     Ui::QArduinoDialog *ui;
@@ -66,6 +67,7 @@ private:
     qint32 currentBaudRate;
     QString currentBaudRateString;
 
+    QString data;
 };
 
 #endif // QARDUINODIALOG_H
