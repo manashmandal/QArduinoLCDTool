@@ -67,7 +67,8 @@ void QArduinoDialog::on_connectButton_clicked()
             arduino->setStopBits(QSerialPort::OneStop);
             // Skipping hw/sw control
             arduino->setFlowControl(QSerialPort::NoFlowControl);
-            QMessageBox::information(this, "Connection successful", "Successfully connected to arduino");
+            QSerialPortInfo info(currentPort);
+            QMessageBox::information(this, "Connection successful", "Successfully connected to : " + info.description());
     } else {
         QMessageBox::warning(this, "Connection Failed", "Retry");
     }
