@@ -125,3 +125,9 @@ void QArduinoDialog::on_pushButton_clicked()
 {
     ui->messageTextEdit->clear();
 }
+
+void QArduinoDialog::on_fontsizeSpinBox_valueChanged(int arg1)
+{
+    ui->messageTextEdit->setFontPointSize(arg1);
+
+}

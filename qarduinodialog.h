@@ -14,6 +14,7 @@
 #include <QListIterator>
 #include <QMessageBox>
 #include <QRegExp>
+#include <QFont>
 
 namespace Ui {
 class QArduinoDialog;
@@ -45,6 +46,8 @@ private slots:
     void on_clearLCDButton_clicked();
 
     void on_pushButton_clicked();
+
+    void on_fontsizeSpinBox_valueChanged(int arg1);
 
 public slots:
     void readArduino(void);
